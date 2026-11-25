@@ -14,6 +14,11 @@ on:
 permissions:
   contents: read
 
+env:
+  # Pinned on purpose: the CLI downloads its cores from GitHub, and old
+  # arduino-cli releases do get removed. Bump this variable deliberately.
+  ARDUINO_CLI_VERSION: "1.6.0"
+
 jobs:
   lint:
     name: arduino-lint
@@ -30,6 +35,7 @@ jobs:
   build:
     name: ${{ matrix.board }} (${{ matrix.fqbn }})
     runs-on: ubuntu-latest
+    timeout-minutes: 40
     strategy:
       fail-fast: false
       matrix:
@@ -49,31 +55,47 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install arduino-cli
-        uses: arduino/setup-arduino-cli@v1
-        with:
-          version: "0.35.3"
-
-      - name: Cache Arduino packages
+      - name: Cache Arduino core packages
         uses: actions/cache@v4
         with:
-          path: |
-            ~/.arduino15
-            ~/Arduino/libraries
-          key: ${{ runner.os }}-arduino-${{ matrix.fqbn }}-${{ hashFiles('library.properties') }}
+          path: ~/.arduino15
+          key: ${{ runner.os }}-arduino-${{ env.ARDUINO_CLI_VERSION }}-${{ matrix.fqbn }}
           restore-keys: |
-            ${{ runner.os }}-arduino-${{ matrix.fqbn }}-
+            ${{ runner.os }}-arduino-${{ env.ARDUINO_CLI_VERSION }}-
+
+      # Installed straight from the release tarball: no third-party action in
+      # the critical path, and the version is visible in the job log.
+      - name: Install arduino-cli ${{ env.ARDUINO_CLI_VERSION }}
+        run: |
+          set -e
+          mkdir -p "$HOME/bin"
+          url="https://github.com/arduino/arduino-cli/releases/download/v${ARDUINO_CLI_VERSION}/arduino-cli_${ARDUINO_CLI_VERSION}_Linux_64bit.tar.gz"
+          curl -fsSL --retry 3 --retry-delay 3 -o /tmp/arduino-cli.tar.gz "$url"
+          tar -xzf /tmp/arduino-cli.tar.gz -C "$HOME/bin"
+          chmod +x "$HOME/bin/arduino-cli"
+          echo "$HOME/bin" >> "$GITHUB_PATH"
+          "$HOME/bin/arduino-cli" version
 
       - name: Install core
         run: |
+          set -e
           arduino-cli config init --overwrite
           arduino-cli config add board_manager.additional_urls \
             https://espressif.github.io/arduino-esp32/package_esp32_index.json
-          arduino-cli core update-index
+          # The Arduino index servers occasionally answer with an error; a
+          # failed attempt must not abort the job, so it lives in an if.
+          for attempt in 1 2 3; do
+            if arduino-cli core update-index; then
+              break
+            fi
+            echo "index download failed (attempt $attempt), retrying..."
+            sleep 5
+          done
           case "${{ matrix.fqbn }}" in
             esp32:*)       arduino-cli core install esp32:esp32@2.0.8 ;;
             arduino:avr:*) arduino-cli core install arduino:avr@1.8.6 ;;
           esac
+          arduino-cli core list
 
       - name: Compile all examples
         run: |
