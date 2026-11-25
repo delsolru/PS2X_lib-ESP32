@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Original library (PS2X_lib 1.9, AVR only)
+    url: https://github.com/madsci1016/Arduino-PS2X
+    about: Upstream project by Bill Porter, Shutter, Eric Wetzel and Kurt Eckhardt — this edition is derived from it.
+  - name: Wiring, power and troubleshooting
+    url: https://github.com/delsolru/PS2X_lib-ESP32/blob/main/README.md
+    about: Read the wiring and error-code sections before opening an issue (Russian version in README.ru.md).

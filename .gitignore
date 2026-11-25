@@ -1,0 +1,21 @@
+# Build artefacts and machine specific files
+build/
+.tmp/
+.tmp*/
+*.log
+*.zip
+*.hex
+*.bin
+*.elf
+*.map
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
