@@ -1,5 +1,8 @@
 #######################################
 # Syntax Coloring Map PS2X
+# PS2X_lib 2.0 — LROB.RU edition (https://lrob.ru)
+# Based on the original PS2X_lib 1.9 by Bill Porter, Shutter,
+# Eric Wetzel and Kurt Eckhardt. Licence: GPLv3.
 #######################################
 
 #######################################
@@ -7,10 +10,13 @@
 #######################################
 
 PS2X	KEYWORD1
+PS2X_Status	KEYWORD1
+PS2X_HwPin	KEYWORD4
 
 #######################################
 # Methods and Functions (KEYWORD2)
 #######################################
+
 Button	KEYWORD2
 ButtonDataByte	KEYWORD2
 NewButtonState	KEYWORD2
@@ -20,7 +26,30 @@ read_gamepad	KEYWORD2
 config_gamepad	KEYWORD2
 enableRumble	KEYWORD2
 enablePressures	KEYWORD2
+reconfig_gamepad	KEYWORD2
+readType	KEYWORD2
 Analog	KEYWORD2
+# --- v2.0 ---
+lastError	KEYWORD2
+ok	KEYWORD2
+connected	KEYWORD2
+lastReadAge	KEYWORD2
+lastOkAge	KEYWORD2
+failedReads	KEYWORD2
+frameMicros	KEYWORD2
+readDelay	KEYWORD2
+setReadDelay	KEYWORD2
+setTiming	KEYWORD2
+clkLowUs	KEYWORD2
+clkHighUs	KEYWORD2
+byteGapUs	KEYWORD2
+setAutoReconnect	KEYWORD2
+autoReconnect	KEYWORD2
+rawPacket	KEYWORD2
+rawPacketSize	KEYWORD2
+debugPrint	KEYWORD2
+errorText	KEYWORD2
+typeText	KEYWORD2
 
 #######################################
 # Constants (LITERAL1)
@@ -67,12 +96,22 @@ PSAB_CIRCLE	LITERAL1
 PSAB_CROSS	LITERAL1
 PSAB_SQUARE	LITERAL1
 
-GREEN_FRET LITERAL1
-RED_FRET LITERAL1
-YELLOW_FRET LITERAL1
-BLUE_FRET LITERAL1
-ORANGE_FRET LITERAL1
-STAR_POWER LITERAL1
-UP_STRUM LITERAL1
-DOWN_STRUM LITERAL1
-WHAMMY_BAR LITERAL1
+GREEN_FRET	LITERAL1
+RED_FRET	LITERAL1
+YELLOW_FRET	LITERAL1
+BLUE_FRET	LITERAL1
+ORANGE_FRET	LITERAL1
+STAR_POWER	LITERAL1
+UP_STRUM	LITERAL1
+DOWN_STRUM	LITERAL1
+LEFT_STRUM	LITERAL1
+RIGHT_STRUM	LITERAL1
+WHAMMY_BAR	LITERAL1
+
+# --- status / error codes ---
+PS2X_OK	LITERAL1
+PS2X_ERR_NO_CONTROLLER	LITERAL1
+PS2X_ERR_NOT_ACCEPTING	LITERAL1
+PS2X_ERR_NO_PRESSURE	LITERAL1
+PS2X_ERR_BAD_PIN	LITERAL1
+PS2X_ERR_NOT_CONFIGURED	LITERAL1

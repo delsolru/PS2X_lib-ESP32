@@ -1,0 +1,59 @@
+NOTICE — PS2X_lib 2.0, LROB.RU edition
+=======================================
+
+This repository contains a DERIVATIVE WORK. It is not an independent
+implementation: it is a port and a rework of an existing library, and it keeps
+that library's licence.
+
+Original work
+-------------
+  Name      : PS2X_lib ("Super amazing PS2 controller Arduino Library"), v1.9
+  Authors   : Shutter (Arduino forums)
+              Bill Porter      — https://github.com/madsci1016
+                                 http://www.billporter.info
+              Eric Wetzel
+              Kurt Eckhardt
+  Upstream  : https://github.com/madsci1016/Arduino-PS2X
+              (the library itself lives in the PS2X_lib/ subfolder)
+  Licence   : GNU General Public License v3 or later
+
+What is retained from the original
+----------------------------------
+  * the PS/2 (PlayStation 2) wire protocol implementation, including the
+    bit-banging order, the ACK slot handling and the configuration command set
+    (enter_config, set_mode, set_bytes_large, exit_config, enable_rumble,
+    type_read);
+  * the button, analog-stick and pressure constants (PSB_*, PSS_*, PSAB_*);
+  * the public class name `PS2X`, all public method names and the header name
+    `PS2X_lib.h`, so that existing sketches are source compatible;
+  * the overall structure of the driver (config → read → getters).
+
+Statement of changes (GPLv3 § 5 a)
+----------------------------------
+  Modified in 2026 by LROB.RU — https://lrob.ru
+  (GitHub: https://github.com/delsolru)
+
+  * Replaced the AVR-only I/O layer (avr/io.h, SREG/cli(), portOutputRegister,
+    digitalPinToBitMask) with a portable GPIO abstraction: direct AVR port
+    registers, direct ESP32 GPIO registers (GPIO_OUT_W1TS / GPIO_IN) and a
+    digitalWrite/digitalRead fallback for other cores.
+  * Added cycle-counter based microsecond delays on ESP32 (esp_cpu_get_ccount)
+    so the bus timing no longer depends on delayMicroseconds() or on the CPU
+    frequency.
+  * Added the diagnostics API: lastError(), ok()/connected(), failedReads(),
+    lastOkAge(), frameMicros(), errorText(), typeText(), debugPrint(), rawPacket().
+  * Added hot-plug recovery, pin validation (PS2X_ERR_BAD_PIN), runtime tunable
+    bit timing (setTiming()) and read-rate control (setReadDelay()).
+  * read_gamepad() now returns bool instead of void (source compatible).
+  * Rewrote the documentation (README.md, README.ru.md, CHANGELOG*.md, this
+    NOTICE), added examples, packaging metadata (library.properties,
+    library.json) and CI.
+
+None of the original copyright notices were removed. The complete text of the
+licence is in LICENSE. The full list of changes is in CHANGELOG.md /
+CHANGELOG.ru.md and, commit by commit, in this repository's git history — the
+first commit is the pristine upstream code this edition was derived from.
+
+Contact / issues
+----------------
+  https://github.com/delsolru/PS2X_lib-ESP32/issues

@@ -1,0 +1,62 @@
+{
+  "name": "PS2X_lib",
+  "version": "2.0.0",
+  "description": "LROB.RU edition. PlayStation 2 controller driver (DualShock, Guitar Hero, cheap 2.4 GHz wireless pads) for Arduino AVR and ESP32. GPLv3 derivative of the original PS2X_lib 1.9 by Bill Porter, Shutter, Eric Wetzel and Kurt Eckhardt (https://github.com/madsci1016/Arduino-PS2X): same API and drop-in replacement, plus ESP32 support (direct GPIO registers, cycle accurate timing), clear error codes, hot-plug recovery and runtime tunable bit timing.",
+  "keywords": "ps2, playstation, gamepad, joystick, controller, dualshock, esp32, avr, arduino, lrob",
+  "authors": [
+    {
+      "name": "Bill Porter",
+      "url": "https://github.com/madsci1016",
+      "maintainer": false
+    },
+    {
+      "name": "Shutter",
+      "maintainer": false
+    },
+    {
+      "name": "Eric Wetzel",
+      "maintainer": false
+    },
+    {
+      "name": "Kurt Eckhardt",
+      "maintainer": false
+    },
+    {
+      "name": "LROB.RU",
+      "url": "https://lrob.ru",
+      "maintainer": true
+    }
+  ],
+  "license": "GPL-3.0-or-later",
+  "homepage": "https://github.com/delsolru/PS2X_lib-ESP32",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/delsolru/PS2X_lib-ESP32.git"
+  },
+  "upstream": {
+    "name": "PS2X_lib 1.9",
+    "url": "https://github.com/madsci1016/Arduino-PS2X",
+    "comment": "original library this edition is derived from (GPLv3)"
+  },
+  "frameworks": "arduino",
+  "platforms": "*",
+  "headers": "PS2X_lib.h",
+  "examples": [
+    "examples/PS2X_Example/*.ino",
+    "examples/PS2X_Minimal/*.ino",
+    "examples/PS2X_ESP32_Diagnose/*.ino",
+    "examples/PS2X_TankDrive/*.ino",
+    "examples/PS2X_ServoPanTilt/*.ino",
+    "examples/PS2X_Calibrate/*.ino",
+    "examples/PS2X_Telemetry/*.ino",
+    "examples/PS2X_DualControllers/*.ino",
+    "examples/PS2X_PressureRumble/*.ino"
+  ],
+  "export": {
+    "exclude": [
+      ".github",
+      ".tmp",
+      "*.log"
+    ]
+  }
+}
